@@ -6,3 +6,10 @@
   box-sizing: border-box;
   margin: 0;
 }
+
+.top {
+  height: 100vh;
+  background-image: url(../../public/Home1.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
