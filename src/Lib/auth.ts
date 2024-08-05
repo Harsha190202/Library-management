@@ -1,4 +1,4 @@
-import NextAuth, { CredentialsSignin } from "next-auth";
+import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "./prisma";
@@ -13,12 +13,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         username: { label: "Username", type: "text" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials): Promise<any> {
+      async authorize(credentials) {
         const username = credentials?.username as string | undefined;
         const password = credentials?.password as string | undefined;
 
         if (!username || !password) {
-          throw new CredentialsSignin({ cause: "Empty Credentials " });
+          throw new Error("Username and password are required.");
         }
 
         const user = await prisma.user.findUnique({
@@ -26,7 +26,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         });
 
         if (!user) {
-          throw new CredentialsSignin({ cause: "Username not found" });
+          throw new Error("Username not found.");
         }
 
         if (user && bcrypt.compareSync(password, user.password)) {
@@ -38,7 +38,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           };
         }
 
-        throw new CredentialsSignin({ cause: "Invalid Password " });
+        throw new Error("Invalid password.");
       },
     }),
   ],

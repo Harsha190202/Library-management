@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import quotes from "@/Lib/quotes";
 import { signIn } from "next-auth/react";
-import { CredentialsSignin } from "next-auth";
 
 export default function Login() {
   const [flag, setFlag] = useState(true);
@@ -14,6 +13,7 @@ export default function Login() {
     username: "",
     password: "",
   });
+  const [error, setError] = useState<string | null>(null);
 
   const router = useRouter();
 
@@ -27,7 +27,7 @@ export default function Login() {
     const { username, password } = formdata;
 
     if (!username || !password) {
-      console.error("Username and password are required.");
+      setError("Username and password are required.");
       return;
     }
 
@@ -38,9 +38,10 @@ export default function Login() {
     });
 
     if (res?.error) {
-      console.error(res.error);
+      setError(res.error === "Configuration" ? "Invalid username or password." : res.error);
     } else {
-      router.push("/sign-out");
+      setError(null);
+      router.push("/");
     }
   };
 
@@ -59,13 +60,14 @@ export default function Login() {
       </section>
       <section className={styles.form}>
         <form className={styles.formdata} onSubmit={handleSubmit}>
-          <h2>Username </h2>
+          <h2>Username</h2>
           <input type="text" id="username" onChange={handleChange} />
           <h2>Password</h2>
           <div className={styles.div}>
             <input type={flag ? "password" : "text"} id="password" onChange={handleChange} />
             <span onClick={() => setFlag((prevFlag) => !prevFlag)}>{flag ? "Show" : "Hide"}</span>
           </div>
+          {error && <div className={styles.error}>{error}</div>}
           <button type="submit">Sign In</button>
         </form>
         <h5>

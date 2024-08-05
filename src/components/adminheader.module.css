@@ -8,6 +8,8 @@
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   font-size: 18px;
   font-weight: 500;
+  background-color: black;
+  color: white;
 }
 
 .links {
@@ -18,8 +20,8 @@
 
 .sign {
   display: flex;
-  background-color: black;
-  color: white;
+  background-color: white;
+  color: black;
   width: 100px;
   height: 40px;
   justify-content: center;
