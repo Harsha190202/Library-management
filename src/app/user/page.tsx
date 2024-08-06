@@ -1,3 +1,8 @@
 export default function UserPage() {
-  return <>User Home Page </>;
+  return (
+    <div>
+      <div>Check Pending</div>
+      <div>Request for extention</div>
+    </div>
+  );
 }
