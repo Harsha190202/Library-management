@@ -9,13 +9,13 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ error: "Id for type is required" }, { status: 400 });
     }
 
-    const newItemType = await prisma.type.delete({
+    const newCategory = await prisma.category.delete({
       where: { id: id },
     });
 
     return NextResponse.json({ message: "Deleted" }, { status: 201 });
   } catch (error) {
-    console.error("Error deleting item type:", error);
-    return NextResponse.json({ error: "Failed to Delete item type" }, { status: 500 });
+    console.error("Error deleting category:", error);
+    return NextResponse.json({ error: "Failed to Delete category" }, { status: 500 });
   }
 }
